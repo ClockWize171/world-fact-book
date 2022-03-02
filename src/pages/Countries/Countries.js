@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import Pagination from "../../components/Pagination/Pagination";
 import {
+    Container,
     Box,
     Flex,
     SimpleGrid,
-    Spinner,
+    Skeleton,
+    SkeletonText,
     Image,
     Text,
     Button,
@@ -13,7 +16,8 @@ import {
     Menu,
     MenuButton,
     MenuList,
-    MenuItem
+    MenuItem,
+    Stack
 } from "@chakra-ui/react";
 import { ArrowForwardIcon, Search2Icon, ArrowUpDownIcon } from '@chakra-ui/icons'
 
@@ -24,6 +28,8 @@ const Countries = (props) => {
     const [searchInput, setSearchInput] = useState("")
     const [countries, setCountries] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(12)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,6 +55,37 @@ const Countries = (props) => {
         }
     }
 
+    // Calculation for Billion Population
+    function BigNumberCalculation(labelValue) {
+        // Nine Zeroes for Billions
+        return Math.abs(Number(labelValue)) >= 1.0e+9
+
+            ? (Math.abs(Number(labelValue)) / 1.0e+9).toFixed(3) + " Billion"
+            // Six Zeroes for Millions 
+            : Math.abs(Number(labelValue)) >= 1.0e+6
+
+                ? (Math.abs(Number(labelValue)) / 1.0e+6).toFixed(3) + " Million"
+                // Three Zeroes for Thousands
+                : Math.abs(Number(labelValue)) >= 1.0e+3
+
+                    ? (Math.abs(Number(labelValue)) / 1.0e+3).toFixed(3) + " Thousand"
+
+                    : Math.abs(Number(labelValue));
+    }
+
+    // Get Current Page
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = countries.slice(indexOfFirstPost, indexOfLastPost)
+
+    // Change Page
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
+    // Skeleton Counts
+    const n = 12;
+
     return (
         <>
             {/* Start Toolbar */}
@@ -69,7 +106,11 @@ const Countries = (props) => {
                     </Box>
                     <Box>
                         <Menu>
-                            <MenuButton as={Button} rightIcon={<ArrowUpDownIcon />}>
+                            <MenuButton
+                                variant="ghost"
+                                colorScheme="blue"
+                                as={Button}
+                                rightIcon={<ArrowUpDownIcon />}>
                                 Filter By Region
                             </MenuButton>
                             <MenuList>
@@ -85,101 +126,135 @@ const Countries = (props) => {
             </Box>
             {/* End Toolbar */}
 
-            <Box padding={5}>
-                <SimpleGrid columns={[1, 2, 4]} spacing='40px'>
-                    {isLoading ? (
-                        <>
-                            {searchInput.length > 0 ? (
-                                <>
-                                    {filtered.map(country => {
-                                        return (
-                                            <Box
-                                                key={country.cca2}
-                                                w="full"
-                                                borderWidth='2px'
-                                                borderRadius='lg'>
-                                                <Box>
-                                                    <Image
-                                                        style={{ border: '1px solid black' }}
-                                                        margin={4}
-                                                        src={country.flags.png}
-                                                        w="92%"
-                                                        height="9rem" />
-                                                </Box>
-                                                <Box
-                                                    textAlign="justify"
-                                                    padding={4}>
-                                                    <Text>
-                                                        Name: <strong>{country.name.common}</strong>
-                                                    </Text>
-                                                    <Text>
-                                                        Population: <strong>{country.population}</strong>
-                                                    </Text>
-                                                    <Text>
-                                                        Area: <strong>{country.area}</strong>
-                                                    </Text>
-                                                </Box>
-                                                <Box
-                                                    paddingLeft={5}
-                                                    paddingBottom={5}>
-                                                    <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
-                                                        See More
-                                                    </Button>
-                                                </Box>
-                                            </Box>
-                                        )
-                                    })}
-                                </>) : (
-                                    <>
-                                    {countries.map(country => {
-                                        return (
-                                            <Box
-                                                key={country.cca2}
-                                                w="300px"
-                                                borderWidth='2px'
-                                                borderRadius='lg'>
-                                                <Box
-                                                    align="center">
-                                                    <Image
-                                                        style={{ border: '1px solid black' }}
-                                                        margin={4}
-                                                        src={country.flags.png}
-                                                        w="60%"
-                                                        height="9rem" />
-                                                </Box>
-                                                <Box
-                                                    padding={5}>
-                                                    <Text>
-                                                        Name: <strong>{country.name.common}</strong>
-                                                    </Text>
-                                                    <Text>
-                                                        Population: <strong>{country.population}</strong>
-                                                    </Text>
-                                                    <Text>
-                                                        Area: <strong>{country.area}</strong>
-                                                    </Text>
-                                                </Box>
-                                                <Box
-                                                    paddingLeft={5}
-                                                    paddingBottom={5}>
-                                                    <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
-                                                        See More
-                                                    </Button>
-                                                </Box>
-                                            </Box>
-                                        )
-                                    })}
-                                </>)}
-                        </>
-                    ) : (
-                        <Box align="center">
-                            <Text fontSize="4xl">
-                                <Spinner size='lg' /> Countries Loading...
-                            </Text>
-                        </Box>
 
-                    )}
-                </SimpleGrid>
+            {/* Countries */}
+            <Box padding={5}>
+                <Container maxW="8xl">
+                    <SimpleGrid columns={[1, 2, 4]} spacing='40px'>
+                        {isLoading ? (
+                            <>
+                                {searchInput.length > 0 ? (
+                                    <>
+                                        {filtered.map(country => {
+                                            return (
+                                                <Box
+                                                    key={country.cca2}
+                                                    w="full"
+                                                    borderWidth='2px'
+                                                    borderRadius='lg'>
+                                                    <Box
+                                                        align="center">
+                                                        <Image
+                                                            style={{ border: '1px solid black' }}
+                                                            margin={4}
+                                                            src={country.flags.png}
+                                                            w="90%"
+                                                            height="10rem" />
+                                                    </Box>
+                                                    <Box
+                                                        textAlign="justify"
+                                                        padding={4}>
+                                                        <Text>
+                                                            Name: <strong>{country.name.common}</strong>
+                                                        </Text>
+                                                        <Text>
+                                                            Population: <strong>{BigNumberCalculation(country.population)}</strong>
+                                                        </Text>
+                                                        <Text>
+                                                            Region: <strong>{country.region}</strong>
+                                                        </Text>
+                                                    </Box>
+                                                    <Box
+                                                        paddingLeft={5}
+                                                        paddingBottom={5}>
+                                                        <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
+                                                            See More
+                                                        </Button>
+                                                    </Box>
+                                                </Box>
+                                            )
+                                        })}
+                                    </>) : (
+                                    <>
+                                        {currentPosts.map(country => {
+                                            return (
+                                                <Box
+                                                    key={country.cca2}
+                                                    w="full"
+                                                    borderWidth='2px'
+                                                    borderRadius='lg'>
+                                                    <Box
+                                                        align="center">
+                                                        <Image
+                                                            style={{ border: '1px solid black' }}
+                                                            margin={4}
+                                                            src={country.flags.png}
+                                                            w="90%"
+                                                            height="10rem" />
+                                                    </Box>
+                                                    <Box
+                                                        padding={5}>
+                                                        <Text>
+                                                            Name: <strong>{country.name.common}</strong>
+                                                        </Text>
+                                                        <Text>
+                                                            Population: <strong>{BigNumberCalculation(country.population)}</strong>
+                                                        </Text>
+                                                        <Text>
+                                                            Region: <strong>{country.region}</strong>
+                                                        </Text>
+                                                    </Box>
+                                                    <Box
+                                                        paddingLeft={5}
+                                                        paddingBottom={5}>
+                                                        <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
+                                                            See More
+                                                        </Button>
+                                                    </Box>
+                                                </Box>
+
+                                            )
+                                        })}
+                                    </>)}
+
+                            </>
+                        ) : (
+                            <>
+                                {[...Array(n)].map((elementInArray, index) => (
+                                    <div className="" key={index}>
+                                        <Box
+                                            w="full"
+                                            borderWidth='2px'
+                                            borderRadius='lg'>
+                                            <Box>
+                                                <Skeleton w="full" h="100px"></Skeleton>
+                                            </Box>
+                                            <Box
+                                                textAlign="justify"
+                                                padding={4}>
+                                                <SkeletonText mt='4' noOfLines={3} spacing='4' />
+                                            </Box>
+                                        </Box>
+                                    </div>
+                                )
+                                )}
+                            </>
+
+
+                        )}
+                    </SimpleGrid>
+
+                    {/* Pagination */}
+                    {searchInput.length > 0 ?
+                        (
+                            <></>
+                        ) : (
+                            <Box padding={5} align="center">
+                                <Pagination postPerPage={postsPerPage} totalPosts={countries.length} pagniate={paginate} />
+                            </Box>
+                        )}
+
+                </Container>
             </Box>
         </>
     );
