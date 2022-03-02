@@ -1,6 +1,5 @@
 import { Box, Heading, Flex, Breadcrumb, BreadcrumbItem, BreadcrumbLink, IconButton, Spacer } from '@chakra-ui/react'
 import { useColorMode } from '@chakra-ui/color-mode'
-import { useMediaQuery } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 
 const Navbar = (props) => {
@@ -9,22 +8,19 @@ const Navbar = (props) => {
     const { colorMode, toggleColorMode } = useColorMode()
     const isDark = colorMode === "dark"
 
-    // Screen Size
-    const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)")
-
     return (
         <Box padding={5}>
             <Flex>
                 <Box>
                     <Heading
-                        color="blue.400"
+                        bgGradient="linear(to-r,  cyan.500, blue.400, cyan.600)" bgClip='text'
                         size="md">
                         World-Fact Book
                     </Heading>
                 </Box>
                 <Spacer />
                 <Box>
-                    <Breadcrumb color="blue.400">
+                    <Breadcrumb fontWeight="semibold" color="blue.400">
                         <BreadcrumbItem>
                             <BreadcrumbLink href='/'>Home</BreadcrumbLink>
                         </BreadcrumbItem>
@@ -40,7 +36,10 @@ const Navbar = (props) => {
                 </Box>
                 <Spacer />
                 <Box>
-                    <IconButton color="blue.400" icon={isDark ? <SunIcon /> : <MoonIcon />} onClick={toggleColorMode}></IconButton>
+                    <IconButton
+                        color={isDark ? "blue.100" : "blue.400"}
+                        icon={isDark ? <SunIcon /> : <MoonIcon />}
+                        onClick={toggleColorMode}></IconButton>
                 </Box>
             </Flex>
         </Box>

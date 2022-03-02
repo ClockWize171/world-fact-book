@@ -10,7 +10,6 @@ import {
     SkeletonText
 } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
-import { useColorMode } from '@chakra-ui/color-mode'
 import { useMediaQuery } from '@chakra-ui/react'
 import worldMap from '../../assets/images/worldmap.png'
 
@@ -85,10 +84,6 @@ const Home = () => {
     // Screen Size
     const [isNotSmallerScreen] = useMediaQuery("(min-width:479px)");
 
-    // Toggle Color Mode 
-    const { colorMode, toggleColorMode } = useColorMode()
-    const isDark = colorMode === "dark"
-
     return (
         <Container
             maxW='container.xl'
@@ -121,7 +116,7 @@ const Home = () => {
                                 Total World Population: <strong>{BigNumberCalculation(totalPopulation)}</strong>
                             </Text>
                         ) :
-                            <Skeleton marginTop={5} h="40px" w="90%" />}
+                            <Skeleton marginTop={5} h="40px" w="100%" />}
 
 
 
@@ -133,9 +128,8 @@ const Home = () => {
                     paddingTop={isNotSmallerScreen ? "0" : "5vh"}>
                     <Heading
                         color="blue.400"
-                        textAlign="center"
                         as="u">
-                        Top World Populated Countries
+                        World's Most Populous Countries
                     </Heading>
                     <SimpleGrid
                         paddingTop={8}
