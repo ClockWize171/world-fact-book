@@ -4,8 +4,7 @@ import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
-    Button,
-    ButtonGroup
+    Button
 } from '@chakra-ui/react'
 
 const Pagination = ({ postPerPage, totalPosts, pagniate }) => {
@@ -16,30 +15,26 @@ const Pagination = ({ postPerPage, totalPosts, pagniate }) => {
     }
     return (
         <Box>
-            <Breadcrumb spacing={2} separator=''>
+            <Breadcrumb spacing={2} separator='.'>
                 {pageNumbers.map(number => (
-                    <BreadcrumbItem key={number}>
+                    <BreadcrumbItem key={number} >
                         <BreadcrumbLink
                             style={{ textDecoration: "none" }}
-                            paddingTop={2}
-                            onClick={() => pagniate(number)}>
-                            <Button colorScheme="blue">
+                            paddingTop={2}>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => pagniate(number)}
+                                mr='-px'
+                                colorScheme="blue">
                                 {number}
                             </Button>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 ))}
+
             </Breadcrumb>
         </Box>
-        // <ButtonGroup colorScheme="blue" isAttached size="sm" variant='outline'>
-        //     {pageNumbers.map(number => (
-        //         <Button
-        //             onClick={() => pagniate(number)}
-        //             key={number}
-        //             mr="-px">{number}</Button>
-        //     ))}
-
-        // </ButtonGroup>
     );
 }
 

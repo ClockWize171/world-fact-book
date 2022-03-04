@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"
 import Pagination from "../../components/Pagination/Pagination";
 import {
     Container,
@@ -17,7 +18,6 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    Stack
 } from "@chakra-ui/react";
 import { ArrowForwardIcon, Search2Icon, ArrowUpDownIcon } from '@chakra-ui/icons'
 
@@ -29,7 +29,7 @@ const Countries = (props) => {
     const [countries, setCountries] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(12)
+    const [postsPerPage] = useState(12);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -98,13 +98,14 @@ const Countries = (props) => {
                                 children={<Search2Icon color='gray.300' />}
                             />
                             <Input
+                                borderRadius="sm"
                                 value={searchInput}
                                 onChange={(e) => searchCountry(e.target.value)}
-                                type='tel'
+                                type='text'
                                 placeholder='Search Country' />
                         </InputGroup>
                     </Box>
-                    <Box>
+                    <Box paddingLeft={3}>
                         <Menu>
                             <MenuButton
                                 variant="ghost"
@@ -167,9 +168,11 @@ const Countries = (props) => {
                                                     <Box
                                                         paddingLeft={5}
                                                         paddingBottom={5}>
-                                                        <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
-                                                            See More
-                                                        </Button>
+                                                        <Link to={`/${country.name.common}`} style={{ textDecoration: "none" }}>
+                                                            <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
+                                                                See More
+                                                            </Button>
+                                                        </Link>
                                                     </Box>
                                                 </Box>
                                             )
@@ -207,9 +210,11 @@ const Countries = (props) => {
                                                     <Box
                                                         paddingLeft={5}
                                                         paddingBottom={5}>
-                                                        <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
-                                                            See More
-                                                        </Button>
+                                                        <Link to={`/${country.name.common}`} style={{ textDecoration: "none" }}>
+                                                            <Button rightIcon={<ArrowForwardIcon />} colorScheme='blue' variant='solid'>
+                                                                See More
+                                                            </Button>
+                                                        </Link>
                                                     </Box>
                                                 </Box>
 
@@ -220,7 +225,7 @@ const Countries = (props) => {
                             </>
                         ) : (
                             <>
-                                {[...Array(n)].map((elementInArray, index) => (
+                                {[...Array(n)].map((index) => (
                                     <div className="" key={index}>
                                         <Box
                                             w="full"
