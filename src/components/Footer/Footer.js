@@ -9,11 +9,11 @@ const Footer = (props) => {
     return (
         <Box
             className="footer"
-            paddingTop="5vh"
+            paddingTop="2vh"
             paddingBottom="5vh"
             textAlign="center"
         >
-            <Text fontSize="sm"> Developed by <strong>Thet Min Htin</strong> © {getYear()} All Right Reserved. </Text>
+            <Text fontSize="sm"> Developed by <strong>Thet Min Htin</strong> © {getYear()}</Text>
         </Box>
     );
 }

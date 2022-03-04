@@ -40,7 +40,7 @@ const CountryDetail = (props) => {
     const [isNotSmallerScreen] = useMediaQuery("(min-width:479px)");
 
     // Toggle Color Mode 
-    const { colorMode, toggleColorMode } = useColorMode()
+    const { colorMode } = useColorMode()
     const isDark = colorMode === "dark"
 
     return (
@@ -71,15 +71,16 @@ const CountryDetail = (props) => {
                             fontWeight="semibold"
                             color="blue.400"
                             fontSize="3xl">
-                            Explore here<ArrowDownIcon mx={1} />
+                            Explore Below<ArrowDownIcon mx={1} />
                         </Text>
                     </Box>
                     <Box borderWidth='2px'
                         borderRadius='lg'>
                         <AspectRatio ratio={16 / 9}>
                             <iframe
+                                title="Embedded google Map"
                                 src='https://www.google.com/maps/embed'
-                                alt='demo'
+                                alt='embedded map'
                             />
                         </AspectRatio>
                     </Box>
@@ -92,8 +93,7 @@ const CountryDetail = (props) => {
                                             <Text
                                                 fontWeight="semibold"
                                                 fontSize="lg">
-                                                Open <strong>{location.name.common}</strong> location via<Link fontWeight="bold" color='blue.400' onClick={() => window.open(location.maps.googleMaps)}> Google Maps<ExternalLinkIcon mx={1} /></Link> and <Link fontWeight="bold" color='blue.400' onClick={() => window.open(location.maps.openStreetMaps)}> OpenStreetMaps<ExternalLinkIcon mx={1} /></Link>.
-
+                                                - Open ({location.name.common}) location via<Link fontWeight="bold" color='blue.400' onClick={() => window.open(location.maps.googleMaps)}> Google Maps<ExternalLinkIcon mx={1} /></Link> and <Link fontWeight="bold" color='blue.400' onClick={() => window.open(location.maps.openStreetMaps)}> OpenStreetMaps<ExternalLinkIcon mx={1} /></Link>
                                             </Text>
                                         </Box>
                                     )
@@ -128,6 +128,7 @@ const CountryDetail = (props) => {
                             {country.map(data => {
                                 return (
                                     <Box
+                                        key={data.cca2}
                                         paddingLeft={isNotSmallerScreen ? "0" : "2vh"}>
                                         <Box paddingTop={3}>
                                             <Image
@@ -167,7 +168,7 @@ const CountryDetail = (props) => {
                                                 Area:&nbsp;&nbsp;<strong>{data.area} km<sup>2</sup></strong>
                                             </Text>
                                             <Text>
-                                                Time Zone:&nbsp;&nbsp;<strong>{data.timezones}</strong>
+                                                Time Zone:&nbsp;&nbsp;<strong>{data.timezones} </strong>
                                             </Text>
                                         </Box>
                                     </Box>

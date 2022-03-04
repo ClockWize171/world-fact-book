@@ -87,7 +87,8 @@ const Home = () => {
     return (
         <Container
             maxW='container.xl'
-            paddingTop={isNotSmallerScreen ? "5vh" : "5vh"}>
+            paddingTop={isNotSmallerScreen ? "5vh" : "5vh"}
+            paddingBottom="2vh">
             <Stack direction={['column', 'row']} justify="space-between">
                 {/* first column */}
                 <Box>
@@ -98,7 +99,7 @@ const Home = () => {
                     </Heading>
                     <Box
                         paddingTop={isNotSmallerScreen ? "10vh" : "5vh"}>
-                        <Image w="full" h="15rem" src={worldMap}></Image>
+                        <Image w="25rem" h="15rem" src={worldMap}></Image>
                     </Box>
                     <Box paddingTop={5}>
                         {/* skeleton added */}
@@ -219,7 +220,7 @@ const Home = () => {
                                         borderRadius='lg'>
                                         <Box>
                                             <Image
-                                                style={{ border: '1px solid black' }}
+                                                style={{ border: '1px solid black', borderRadius: '5px' }}
                                                 margin={4}
                                                 src={country.flags.png}
                                                 w={isNotSmallerScreen ? "75%" : "60%"}

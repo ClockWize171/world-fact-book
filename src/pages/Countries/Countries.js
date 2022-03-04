@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
+import Toolbar from "../../components/Toolbar/Toolbar";
 import Pagination from "../../components/Pagination/Pagination";
 import {
     Container,
     Box,
-    Flex,
     SimpleGrid,
     Skeleton,
     SkeletonText,
     Image,
     Text,
     Button,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon, Search2Icon, ArrowUpDownIcon } from '@chakra-ui/icons'
+import { ArrowForwardIcon } from '@chakra-ui/icons'
 
 const url = ('https://restcountries.com/v3.1/all')
 
@@ -88,49 +81,14 @@ const Countries = (props) => {
 
     return (
         <>
-            {/* Start Toolbar */}
-            <Box padding={5}>
-                <Flex justify="space-between">
-                    <Box>
-                        <InputGroup>
-                            <InputLeftElement
-                                pointerEvents='none'
-                                children={<Search2Icon color='gray.300' />}
-                            />
-                            <Input
-                                borderRadius="sm"
-                                value={searchInput}
-                                onChange={(e) => searchCountry(e.target.value)}
-                                type='text'
-                                placeholder='Search Country' />
-                        </InputGroup>
-                    </Box>
-                    <Box paddingLeft={3}>
-                        <Menu>
-                            <MenuButton
-                                variant="ghost"
-                                colorScheme="blue"
-                                as={Button}
-                                rightIcon={<ArrowUpDownIcon />}>
-                                Filter By Region
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem>Africa</MenuItem>
-                                <MenuItem>America</MenuItem>
-                                <MenuItem>Asia</MenuItem>
-                                <MenuItem>Europe</MenuItem>
-                                <MenuItem>Oceania</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </Box>
-                </Flex>
-            </Box>
-            {/* End Toolbar */}
-
-
             {/* Countries */}
             <Box padding={5}>
                 <Container maxW="8xl">
+
+                    {/* Start Toolbar */}
+                    <Toolbar searchCountry={searchCountry} searchInput={searchInput} setCountries={setCountries} />
+                    {/* End Toolbar */}
+
                     <SimpleGrid columns={[1, 2, 4]} spacing='40px'>
                         {isLoading ? (
                             <>
@@ -154,7 +112,7 @@ const Countries = (props) => {
                                                     </Box>
                                                     <Box
                                                         textAlign="justify"
-                                                        padding={4}>
+                                                        padding={5}>
                                                         <Text>
                                                             Name: <strong>{country.name.common}</strong>
                                                         </Text>
@@ -225,8 +183,8 @@ const Countries = (props) => {
                             </>
                         ) : (
                             <>
-                                {[...Array(n)].map((index) => (
-                                    <div className="" key={index}>
+                                {[...Array(n)].map(index => (
+                                    <div key={index}>
                                         <Box
                                             w="full"
                                             borderWidth='2px'
@@ -254,7 +212,7 @@ const Countries = (props) => {
                         (
                             <></>
                         ) : (
-                            <Box padding={5} align="center">
+                            <Box paddingTop={5} align="center">
                                 <Pagination postPerPage={postsPerPage} totalPosts={countries.length} pagniate={paginate} />
                             </Box>
                         )}

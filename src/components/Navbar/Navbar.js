@@ -33,7 +33,10 @@ const Navbar = (props) => {
                 </Box>
                 <Spacer />
                 <Box>
-                    <Breadcrumb fontWeight="semibold" color="blue.400">
+                    <Breadcrumb
+                        fontSize={isNotSmallerScreen ? "xl" : "md"}
+                        fontWeight="semibold"
+                        color="blue.400">
                         <BreadcrumbItem>
                             <BreadcrumbLink href='/'>Home</BreadcrumbLink>
                         </BreadcrumbItem>
@@ -50,7 +53,7 @@ const Navbar = (props) => {
                 <Spacer />
                 <Box>
                     <IconButton
-                        color={isDark ? "blue.100" : "blue.400"}
+                        color={isDark ? "blue.300" : "blue.400"}
                         icon={isDark ? <SunIcon /> : <MoonIcon />}
                         onClick={toggleColorMode}></IconButton>
                 </Box>
